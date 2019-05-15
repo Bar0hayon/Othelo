@@ -1,0 +1,8 @@
+C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\bin\Debug\Ex02_Othelo.exe
+C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\bin\Debug\Ex02_Othelo.pdb
+C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\bin\Debug\Ex02.ConsoleUtils.dll
+C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\obj\Debug\Ex02_Othelo.csprojAssemblyReference.cache
+C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.CoreCompileInputs.cache
+C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.CopyComplete
+C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\obj\Debug\Ex02_Othelo.exe
+C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\obj\Debug\Ex02_Othelo.pdb
