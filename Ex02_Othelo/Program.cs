@@ -10,6 +10,7 @@ namespace Ex02_Othelo
         {
             GameManager gameManager = new GameManager();
             gameManager.StartMenu();
+            Console.WriteLine("bla bla bla");
         }
     }
 }
