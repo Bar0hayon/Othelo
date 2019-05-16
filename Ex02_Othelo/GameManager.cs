@@ -13,6 +13,7 @@ namespace Ex02_Othelo
         private eCell m_TurnOff = eCell.White;
         private GameBoardEngine m_GameBoardEngine;
         private int m_BoardSize;
+        internal int m_CountBlack = 0, m_CountWhite = 0;
 
         public void StartMenu()
         {
@@ -68,9 +69,9 @@ namespace Ex02_Othelo
 
         private void endGame()
         {
-            CalculateAndPrintPlayersScore(m_GameBoardEngine.Board);
+            CalculateAndPrintPlayersScore(m_GameBoardEngine.Board, ref m_CountBlack, ref m_CountWhite);
+            GameUI.printGameFinalResults(m_CountBlack, m_CountWhite, getUserName(eCell.Black), getUserName(eCell.White));
             Console.ReadLine();
-           // GameUI.GameOver(countBlacks, countWhites);
         }
 
         private void toggleTurn()
@@ -106,7 +107,7 @@ namespace Ex02_Othelo
             i_playerName = Console.ReadLine();
         }
 
-        internal string getUserName(eCell i_SearchNameByItColor)
+        public string getUserName(eCell i_SearchNameByItColor)
         {
             string o_playerName;
             if (i_SearchNameByItColor == eCell.Black)
@@ -120,44 +121,31 @@ namespace Ex02_Othelo
             else
             {
                 o_playerName = null;
-                Console.WriteLine("Error occured! Could not find the name of the User due to wrong color given in input");
+            }
+            if(o_playerName == null)
+            {
+                Console.WriteLine("Error occured! Could not find the name of the User!");
             }
             return o_playerName;
         }
 
-        internal void CalculateAndPrintPlayersScore(eCell[,] i_gameBoard)
+        internal void CalculateAndPrintPlayersScore(eCell[,] i_gameBoard, ref int io_CountBlack, ref int io_CountWhite)
         {
             int lengthOfRowsAndColumns = (int)Math.Sqrt(i_gameBoard.Length);
-            int countBlack = 0, countWhite = 0;
             for (int i = 0; i < lengthOfRowsAndColumns; i++)
             {
                 for (int j = 0; j < lengthOfRowsAndColumns; j++)
                 {
                     if (i_gameBoard[i, j] == eCell.Black)
                     {
-                        countBlack++;
+                        io_CountBlack++;
                     }
                     else if (i_gameBoard[i, j] == eCell.White)
                     {
-                        countWhite++;
+                        io_CountWhite++;
                     }
                 }
             }
-            // Ex02.ConsoleUtils.Screen.Clear();
-            GameUI.printPlayersScore(countBlack, getUserName(eCell.Black));
-            GameUI.printPlayersScore(countWhite, getUserName(eCell.White));
-            if (countBlack > countWhite)
-            {
-                GameUI.PrintMassage("Black color wins!");
-            }
-            else if (countBlack < countWhite)
-            {
-                GameUI.PrintMassage("White color wins!");
-            }
-            else
-            {
-                GameUI.PrintMassage("Tie! You better go and match it again!");
-            }
-        }
+        }     
     }
 }

@@ -145,5 +145,23 @@ namespace Ex02_Othelo
             i_countColorString.Append(i_PlayerName).Append(" achieved ").Append(i_CountByColor).Append(" points.");
             Console.WriteLine(i_countColorString);
         }
+
+        internal static void printGameFinalResults(int countBlack, int countWhite, string i_BlackPlayerName, string i_WhitePlayerName)
+        {
+            printPlayersScore(countBlack, i_BlackPlayerName);
+            printPlayersScore(countWhite, i_WhitePlayerName);
+            if (countBlack > countWhite)
+            {
+                PrintMassage("Black color wins!");
+            }
+            else if (countBlack < countWhite)
+            {
+                PrintMassage("White color wins!");
+            }
+            else
+            {
+                PrintMassage("Tie! You better go and match it again!");
+            }
+        }
     }
 }
