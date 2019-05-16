@@ -151,32 +151,5 @@ namespace Ex02_Othelo
             return ((m_LegalMoves.IndexOf(i_userMove) > -1) &&
                 isValidCoordinates(i_userMove.X, i_userMove.Y));
         }
-
-        internal eCell GetCountByColor(eCell black)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void GetCountByColor(eCell[,] i_gameBoard)
-        {
-            int lengthOfRowsAndColumns = (int)Math.Sqrt(i_gameBoard.Length);
-            int countBlack = 0, countWhite = 0;
-            for (int i = 0; i < lengthOfRowsAndColumns; i++)
-            {
-                for (int j = 0; j < lengthOfRowsAndColumns; j++)
-                {
-                    if (i_gameBoard[i, j] == eCell.Black)
-                    {
-                        countBlack++;
-                    }
-                    else if (i_gameBoard[i, j] == eCell.White)
-                    {
-                        countWhite++;
-                    }
-                }
-            }
-            //  GameUI.printPlayersScore(countBlack, string player1);
-            //  GameUI.printPlayersScore(countBlack, string player2);
-        }
     }
 }

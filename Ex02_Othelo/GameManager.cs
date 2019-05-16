@@ -16,14 +16,14 @@ namespace Ex02_Othelo
 
         public void StartMenu()
         {
-            m_Player1 = GameUI.GetUserName();
+            setUserName(ref m_Player1);
             v_IsVsComputer = GameUI.IsVsComputer();
             if (!v_IsVsComputer)
             {
                 do
                 {
-                    m_Player2 = GameUI.GetUserName();
-                    if(m_Player1 == m_Player2)
+                    setUserName(ref m_Player2);
+                    if (m_Player1 == m_Player2)
                     {
                         GameUI.PrintMassage("UserName is allready in use! please use a defferent UserName");
                     }
@@ -60,6 +60,7 @@ namespace Ex02_Othelo
                     else
                     {
                         endGame();
+                        break;
                     }
                 }
             }
@@ -67,9 +68,9 @@ namespace Ex02_Othelo
 
         private void endGame()
         {
-            eCell countBlacks = m_GameBoardEngine.GetCountByColor(eCell.Black);
-            eCell countWhites = m_GameBoardEngine.GetCountByColor(eCell.White);
-            GameUI.GameOver(countBlacks, countWhites);
+            CalculateAndPrintPlayersScore(m_GameBoardEngine.Board);
+            Console.ReadLine();
+           // GameUI.GameOver(countBlacks, countWhites);
         }
 
         private void toggleTurn()
@@ -97,6 +98,66 @@ namespace Ex02_Othelo
             } while (!m_GameBoardEngine.isValidMove(userMove));
 
             return userMove;
+        }
+
+        internal void setUserName(ref string i_playerName)
+        {
+            GameUI.PrintMassage("Please enter UserName:");
+            i_playerName = Console.ReadLine();
+        }
+
+        internal string getUserName(eCell i_SearchNameByItColor)
+        {
+            string o_playerName;
+            if (i_SearchNameByItColor == eCell.Black)
+            {
+                o_playerName = m_Player1;
+            }
+            else if (i_SearchNameByItColor == eCell.White)
+            {
+                o_playerName = m_Player2;
+            }
+            else
+            {
+                o_playerName = null;
+                Console.WriteLine("Error occured! Could not find the name of the User due to wrong color given in input");
+            }
+            return o_playerName;
+        }
+
+        internal void CalculateAndPrintPlayersScore(eCell[,] i_gameBoard)
+        {
+            int lengthOfRowsAndColumns = (int)Math.Sqrt(i_gameBoard.Length);
+            int countBlack = 0, countWhite = 0;
+            for (int i = 0; i < lengthOfRowsAndColumns; i++)
+            {
+                for (int j = 0; j < lengthOfRowsAndColumns; j++)
+                {
+                    if (i_gameBoard[i, j] == eCell.Black)
+                    {
+                        countBlack++;
+                    }
+                    else if (i_gameBoard[i, j] == eCell.White)
+                    {
+                        countWhite++;
+                    }
+                }
+            }
+            // Ex02.ConsoleUtils.Screen.Clear();
+            GameUI.printPlayersScore(countBlack, getUserName(eCell.Black));
+            GameUI.printPlayersScore(countWhite, getUserName(eCell.White));
+            if (countBlack > countWhite)
+            {
+                GameUI.PrintMassage("Black color wins!");
+            }
+            else if (countBlack < countWhite)
+            {
+                GameUI.PrintMassage("White color wins!");
+            }
+            else
+            {
+                GameUI.PrintMassage("Tie! You better go and match it again!");
+            }
         }
     }
 }

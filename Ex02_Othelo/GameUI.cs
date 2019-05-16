@@ -69,27 +69,21 @@ namespace Ex02_Othelo
         internal static bool IsVsComputer()
         {
             bool isNumber;
-            int userChose;
+            int userChoise;
             do
             {
                 Console.WriteLine("please choose one of the followings:");
                 Console.WriteLine("\t1.start a 2 players game.");
                 Console.WriteLine("\t2.start a game VS the computer");
                 string userInput = Console.ReadLine();
-                isNumber = int.TryParse(userInput, out userChose);
-                if (!isNumber || userChose > 2 || userChose < 1)
+                isNumber = int.TryParse(userInput, out userChoise);
+                if (!isNumber || userChoise > 2 || userChoise < 1)
                 {
                     Console.WriteLine("ERROR: please enter a valid input");
                 }
-            } while (!isNumber || userChose > 2 || userChose < 1);
+            } while (!isNumber || userChoise > 2 || userChoise < 1);
 
-            return userChose == 2;
-        }
-
-        internal static string GetUserName()
-        {
-            Console.WriteLine("Please enter UserName:");
-            return Console.ReadLine();
+            return userChoise == 2;
         }
 
         private static void printTurnOf(eCell i_turnOf)
@@ -148,7 +142,8 @@ namespace Ex02_Othelo
         internal static void printPlayersScore(int i_CountByColor, String i_PlayerName)
         {
             StringBuilder i_countColorString = new StringBuilder();
-            i_countColorString.Append(i_PlayerName).Append(" achieved").Append(i_CountByColor).Append(" points.");
+            i_countColorString.Append(i_PlayerName).Append(" achieved ").Append(i_CountByColor).Append(" points.");
+            Console.WriteLine(i_countColorString);
         }
     }
 }
