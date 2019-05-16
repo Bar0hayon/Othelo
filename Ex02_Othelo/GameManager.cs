@@ -55,12 +55,13 @@ namespace Ex02_Othelo
                     m_GameBoardEngine.SetLegalMoves(m_TurnOf); //// Duplicate ----> to change!!!
                     if (m_GameBoardEngine.isLegalMoveExists())
                     {
-                        GameUI.PrintMassage("No legal moves! turn skiped...");
+                        GameUI.PrintMassage("\nThere aren't any legal moves! Your turn is skipped\n");
                         userMove = getUserMove();
                         m_GameBoardEngine.MakeUserMove(userMove, m_TurnOf);
                     }
                     else
                     {
+                        GameUI.PrintMassage("\nThere aren't any legal moves for both players! Game is over!\n");
                         endMatch();
                         playRematchGame();
                         Environment.Exit(0);
@@ -89,8 +90,10 @@ namespace Ex02_Othelo
                     GameUI.PrintMassage("ERROR: please enter a valid input");
                 }
             } while ((i_userInput).ToLower() != "no");
-
+            GameUI.endGameMessage();
         }
+
+        
 
         private void endMatch()
         {

@@ -36,10 +36,10 @@ namespace Ex02_Othelo
                     m_Board[i, j] = eCell.Empty;
                 }
             }
-            m_Board[((i_boardSize / 2) - 1), ((i_boardSize / 2) - 1)] = eCell.White;
-            m_Board[(i_boardSize / 2), (i_boardSize / 2)] = eCell.White;
-            m_Board[(i_boardSize / 2), (i_boardSize / 2) - 1] = eCell.Black;
-            m_Board[(i_boardSize / 2) - 1, (i_boardSize / 2)] = eCell.Black;
+              m_Board[((i_boardSize / 2) - 1), ((i_boardSize / 2) - 1)] = eCell.White;
+              m_Board[(i_boardSize / 2), (i_boardSize / 2)] = eCell.White;
+              m_Board[(i_boardSize / 2), ((i_boardSize / 2) - 1)] = eCell.Black;
+              m_Board[((i_boardSize / 2) - 1), (i_boardSize / 2)] = eCell.Black;
         }
 
         internal void MakeUserMove(Point i_userMove, eCell i_turnOf)

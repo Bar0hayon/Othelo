@@ -175,5 +175,14 @@ namespace Ex02_Othelo
                 PrintMassage("Tie! You better go and match it again!");
             }
         }
+
+        internal static void endGameMessage()
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
+            PrintMassage("\nThank You for playing our Othelo game!\n" +
+                                "Have a good day!\n\n" +
+                                "Press any key to continue...");
+            Console.ReadLine();
+        }
     }
 }
