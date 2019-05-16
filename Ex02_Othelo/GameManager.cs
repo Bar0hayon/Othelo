@@ -7,13 +7,14 @@ namespace Ex02_Othelo
 {
     class GameManager
     {
+        private const int k_CapitalLetterQ = 16;
         private string m_Player1;
         private string m_Player2;
         private bool v_IsVsComputer;
-        private eCell m_TurnOff = eCell.White;
+        private eCell m_TurnOf = eCell.White;
         private GameBoardEngine m_GameBoardEngine;
         private int m_BoardSize;
-        internal int m_CountBlack = 0, m_CountWhite = 0;
+        private int m_CountBlack = 0, m_CountWhite = 0;
 
         public void StartMenu()
         {
@@ -40,49 +41,72 @@ namespace Ex02_Othelo
             Point userMove;
             while (true) ///////TO CHANGE!!
             {
-                GameUI.PrintBoard(m_GameBoardEngine.Board, m_TurnOff);
-                m_GameBoardEngine.SetLegalMoves(m_TurnOff);
+                GameUI.PrintBoard(m_GameBoardEngine.Board, m_TurnOf);
+                m_GameBoardEngine.SetLegalMoves(m_TurnOf);
                 if (m_GameBoardEngine.isLegalMoveExists())
                 {
                     userMove = getUserMove();
-                    m_GameBoardEngine.MakeUserMove(userMove, m_TurnOff);
+                    m_GameBoardEngine.MakeUserMove(userMove, m_TurnOf);
                     toggleTurn();
                 }
                 else
                 {
                     toggleTurn();
-                    m_GameBoardEngine.SetLegalMoves(m_TurnOff); //// Duplicate ----> to change!!!
+                    m_GameBoardEngine.SetLegalMoves(m_TurnOf); //// Duplicate ----> to change!!!
                     if (m_GameBoardEngine.isLegalMoveExists())
                     {
                         GameUI.PrintMassage("No legal moves! turn skiped...");
                         userMove = getUserMove();
-                        m_GameBoardEngine.MakeUserMove(userMove, m_TurnOff);
+                        m_GameBoardEngine.MakeUserMove(userMove, m_TurnOf);
                     }
                     else
                     {
-                        endGame();
-                        break;
+                        endMatch();
+                        playRematchGame();
+                        Environment.Exit(0);
                     }
                 }
             }
         }
 
-        private void endGame()
+        private void playRematchGame()
+        {
+            string i_userInput = null;
+            do
+            {
+                GameUI.PrintMassage("\nGo for a rematch? (yes/no)");
+                i_userInput = Console.ReadLine();
+                if ((i_userInput).ToLower() == "yes")
+                {
+                    m_CountBlack = 0;
+                    m_CountWhite = 0;
+                    m_TurnOf = eCell.White;
+                    m_GameBoardEngine = new GameBoardEngine(m_BoardSize);
+                    startGame();
+                }
+                else if ((i_userInput).ToLower() != "no")
+                {
+                    GameUI.PrintMassage("ERROR: please enter a valid input");
+                }
+            } while ((i_userInput).ToLower() != "no");
+
+        }
+
+        private void endMatch()
         {
             CalculateAndPrintPlayersScore(m_GameBoardEngine.Board, ref m_CountBlack, ref m_CountWhite);
             GameUI.printGameFinalResults(m_CountBlack, m_CountWhite, getUserName(eCell.Black), getUserName(eCell.White));
-            Console.ReadLine();
         }
 
         private void toggleTurn()
         {
-            if (m_TurnOff == eCell.Black)
+            if (m_TurnOf == eCell.Black)
             {
-                m_TurnOff = eCell.White;
+                m_TurnOf = eCell.White;
             }
             else
             {
-                m_TurnOff = eCell.Black;
+                m_TurnOf = eCell.Black;
             }
         }
 
@@ -92,7 +116,11 @@ namespace Ex02_Othelo
             do
             {
                 userMove = GameUI.GetUserMove();
-                if (!m_GameBoardEngine.isValidMove(userMove))
+                if(userMove.X == 0 && userMove.Y == k_CapitalLetterQ)
+                {
+                    Environment.Exit(0);
+                }
+                else if (!m_GameBoardEngine.isValidMove(userMove))
                 {
                     GameUI.PrintMassage("CONST ILLEAGAL MOVE");
                 }

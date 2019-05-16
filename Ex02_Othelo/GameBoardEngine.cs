@@ -8,8 +8,6 @@ namespace Ex02_Othelo
     public class GameBoardEngine
     {
         private eCell[,] m_Board;
-        //int m_NumOfBlacks;
-        //int m_NumOfWhites;
         private List<Point> m_LegalMoves;
         private int m_BoardSize;
 

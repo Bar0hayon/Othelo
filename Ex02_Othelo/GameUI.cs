@@ -121,11 +121,23 @@ namespace Ex02_Othelo
 
         internal static Point GetUserMove()
         {
+            int x = 0;
+            int y = 0;
             Console.WriteLine("Enter Coordinates: (for example: E4)");
             string stringCoordinats = Console.ReadLine();
             char[] charArrayCoordinates = stringCoordinats.ToCharArray();
-            int x = (int)(charArrayCoordinates[1] - '0' - 1);
-            int y = (int)(charArrayCoordinates[0] - 'A');
+            if (charArrayCoordinates.Length > 0 && charArrayCoordinates.Length <= 2) 
+            {
+                if(charArrayCoordinates.Length == 1)
+                {
+                    y = (int)(charArrayCoordinates[0] - 'A');
+                }
+                else
+                {
+                    y = (int)(charArrayCoordinates[0] - 'A');
+                    x = (int)(charArrayCoordinates[1] - '0' - 1);
+                }
+            }
             return new Point(x, y);
         }
 
