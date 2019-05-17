@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex02_Othelo
 {
-    class GameManager
+    public class GameManager
     {
         private const int k_CapitalLetterQ = 16;
         private string m_Player1;
@@ -33,8 +33,10 @@ namespace Ex02_Othelo
                     {
                         GameUI.PrintMassage("UserName is allready in use! please use a defferent UserName");
                     }
-                } while (m_Player1 == m_Player2);
+                }
+                while (m_Player1 == m_Player2);
             }
+
             m_BoardSize = GameUI.GetBoardSize();
             m_GameBoardEngine = new GameBoardEngine(m_BoardSize);
             startGame();
@@ -43,7 +45,7 @@ namespace Ex02_Othelo
         private void startGame()
         {
             Point userMove;
-            while (true) ///////TO CHANGE!!
+            while (true)
             {
                 GameUI.PrintBoard(m_GameBoardEngine.Board, m_TurnOf);
                 m_GameBoardEngine.SetLegalMoves(m_TurnOf);
@@ -82,7 +84,7 @@ namespace Ex02_Othelo
             {
                 GameUI.PrintMassage("\nGo for a rematch? (yes/no)");
                 i_userInput = Console.ReadLine();
-                if ((i_userInput).ToLower() == "yes")
+                if (i_userInput.ToLower() == "yes")
                 {
                     m_CountBlack = 0;
                     m_CountWhite = 0;
@@ -90,11 +92,12 @@ namespace Ex02_Othelo
                     m_GameBoardEngine = new GameBoardEngine(m_BoardSize);
                     startGame();
                 }
-                else if ((i_userInput).ToLower() != "no")
+                else if (i_userInput.ToLower() != "no")
                 {
                     GameUI.PrintMassage("ERROR: please enter a valid input");
                 }
-            } while ((i_userInput).ToLower() != "no");
+            }
+            while (i_userInput.ToLower() != "no");
             GameUI.endGameMessage();
         }
 
@@ -139,7 +142,8 @@ namespace Ex02_Othelo
                     {
                         GameUI.PrintMassage("CONST ILLEAGAL MOVE");
                     }
-                } while (!m_GameBoardEngine.isValidMove(userMove));
+                }
+                while (!m_GameBoardEngine.isValidMove(userMove));
             }
             else
             {
@@ -170,10 +174,12 @@ namespace Ex02_Othelo
             {
                 o_playerName = null;
             }
+
             if (o_playerName == null)
             {
                 Console.WriteLine("Error occured! Could not find the name of the User!");
             }
+
             return o_playerName;
         }
 

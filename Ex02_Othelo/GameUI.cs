@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex02_Othelo
 {
-    class GameUI
+    public class GameUI
     {
         public static void PrintBoard(eCell[,] i_Board, eCell i_turnOf)
         {
@@ -32,6 +32,7 @@ namespace Ex02_Othelo
                         Console.Write("| X ");
                     }
                 }
+
                 Console.WriteLine("|");
                 printRowSaparator(lengthOfRowsAndColumns);
             }
@@ -53,7 +54,9 @@ namespace Ex02_Othelo
                 {
                     Console.WriteLine("ERROR: please enter a valid input");
                 }
-            } while (!isNumber || userChose > 2 || userChose < 1);
+            }
+            while (!isNumber || userChose > 2 || userChose < 1);
+
             if (userChose == 1)
             {
                 boardSize = 6;
@@ -81,7 +84,8 @@ namespace Ex02_Othelo
                 {
                     Console.WriteLine("ERROR: please enter a valid input");
                 }
-            } while (!isNumber || userChoise > 2 || userChoise < 1);
+            }
+            while (!isNumber || userChoise > 2 || userChoise < 1);
 
             return userChoise == 2;
         }
@@ -106,6 +110,7 @@ namespace Ex02_Othelo
             {
                 Console.Write("  " + (char)('A' + i) + " ");
             }
+
             Console.WriteLine();
         }
 
@@ -116,6 +121,7 @@ namespace Ex02_Othelo
             {
                 Console.Write("=");
             }
+
             Console.WriteLine("=");
         }
 
@@ -138,6 +144,7 @@ namespace Ex02_Othelo
                     x = (int)(charArrayCoordinates[1] - '0' - 1);
                 }
             }
+
             return new Point(x, y);
         }
 
@@ -151,7 +158,7 @@ namespace Ex02_Othelo
             throw new NotImplementedException();
         }
 
-        internal static void printPlayersScore(int i_CountByColor, String i_PlayerName)
+        internal static void printPlayersScore(int i_CountByColor, string i_PlayerName)
         {
             StringBuilder i_countColorString = new StringBuilder();
             i_countColorString.Append(i_PlayerName).Append(" achieved ").Append(i_CountByColor).Append(" points.");

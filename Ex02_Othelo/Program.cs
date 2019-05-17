@@ -6,7 +6,7 @@ namespace Ex02_Othelo
 {
     public class Program
     {
-        static void Main()
+        public static void Main()
         {
             GameManager gameManager = new GameManager();
             gameManager.StartMenu();

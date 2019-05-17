@@ -4,10 +4,12 @@ using System.Text;
 
 namespace Ex02_Othelo
 {
-    class Direction
+    public class Direction
     {
-        private static eDirection[] m_allDirections = {eDirection.Down, eDirection.DownLeft, eDirection.DownRight
-            , eDirection.Left, eDirection.Right, eDirection.Up, eDirection.UpLeft, eDirection.UpRight};
+        private static eDirection[] m_allDirections =
+            {
+            eDirection.Down, eDirection.DownLeft, eDirection.DownRight, eDirection.Left, eDirection.Right, eDirection.Up, eDirection.UpLeft, eDirection.UpRight
+            };
 
         public static eDirection[] AllDirections
         {
@@ -21,31 +23,31 @@ namespace Ex02_Othelo
         {
             switch (i_direction)
             {
-                case (eDirection.Down):
+                case eDirection.Down:
                     io_x--;
                     break;
-                case (eDirection.Up):
+                case eDirection.Up:
                     io_x++;
                     break;
-                case (eDirection.Left):
+                case eDirection.Left:
                     io_y--;
                     break;
-                case (eDirection.Right):
+                case eDirection.Right:
                     io_y++;
                     break;
-                case (eDirection.UpLeft):
+                case eDirection.UpLeft:
                     io_x--;
                     io_y--;
                     break;
-                case (eDirection.UpRight):
+                case eDirection.UpRight:
                     io_x--;
                     io_y++;
                     break;
-                case (eDirection.DownLeft):
+                case eDirection.DownLeft:
                     io_x++;
                     io_y--;
                     break;
-                case (eDirection.DownRight):
+                case eDirection.DownRight:
                     io_x++;
                     io_y++;
                     break;

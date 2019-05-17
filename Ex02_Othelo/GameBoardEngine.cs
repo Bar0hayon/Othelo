@@ -36,6 +36,7 @@ namespace Ex02_Othelo
                     m_Board[i, j] = eCell.Empty;
                 }
             }
+
             m_Board[((i_boardSize / 2) - 1), ((i_boardSize / 2) - 1)] = eCell.White;
             m_Board[(i_boardSize / 2), (i_boardSize / 2)] = eCell.White;
             m_Board[(i_boardSize / 2), (i_boardSize / 2) - 1] = eCell.Black;
@@ -77,7 +78,7 @@ namespace Ex02_Othelo
 
         internal bool isLegalMoveExists()
         {
-            return (m_LegalMoves.Count > 0);
+            return m_LegalMoves.Count > 0;
         }
 
         internal void SetLegalMoves(eCell i_TurnOf, eCell[,] i_board, List<Point> o_legalMoves)
@@ -125,9 +126,9 @@ namespace Ex02_Othelo
             bool isLegal = false;
             eCell rivalColor = getOppositeColor(i_turnOf);
             Direction.Move(i_direction, ref i_row, ref i_column);
-            if ((isValidCoordinates(i_row, i_column)) && (i_board[i_row, i_column] == rivalColor))
+            if (isValidCoordinates(i_row, i_column) && i_board[i_row, i_column] == rivalColor)
             {
-                while ((isValidCoordinates(i_row, i_column)) && (i_board[i_row, i_column] == rivalColor))
+                while (isValidCoordinates(i_row, i_column) && i_board[i_row, i_column] == rivalColor)
                 {
                     Direction.Move(i_direction, ref i_row, ref i_column);
                 }
@@ -137,6 +138,7 @@ namespace Ex02_Othelo
                     isLegal = true;
                 }
             }
+
             return isLegal;
         }
 
@@ -159,6 +161,7 @@ namespace Ex02_Othelo
             {
                 countMovePoints[i] = getAmountOfAdittionalDiscsAfter2Moves(m_LegalMoves[i], i_turnOf);
             }
+
             bestMoveIndex = 0;
             for (int i = 1; i < countMovePoints.Length; i++)
             {
@@ -232,6 +235,7 @@ namespace Ex02_Othelo
                     countPoints--;
                 }
             }
+
             return countPoints;
         }
 
@@ -251,8 +255,7 @@ namespace Ex02_Othelo
 
         private bool isValidCoordinates(int i_row, int i_column)
         {
-            return ((i_row < m_BoardSize) && (i_row >= 0) &&
-                (i_column < m_BoardSize) && (i_column >= 0));
+            return i_row < m_BoardSize && i_row >= 0 && i_column < m_BoardSize && i_column >= 0;
         }
 
         private eCell getOppositeColor(eCell i_color)
@@ -272,8 +275,7 @@ namespace Ex02_Othelo
 
         internal bool isValidMove(Point i_userMove)
         {
-            return ((m_LegalMoves.IndexOf(i_userMove) > -1) &&
-                isValidCoordinates(i_userMove.X, i_userMove.Y));
+            return m_LegalMoves.IndexOf(i_userMove) > -1 && isValidCoordinates(i_userMove.X, i_userMove.Y);
         }
     }
 }
