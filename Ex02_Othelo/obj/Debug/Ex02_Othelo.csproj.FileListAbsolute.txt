@@ -6,3 +6,11 @@ C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\
 C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.CopyComplete
 C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\obj\Debug\Ex02_Othelo.exe
 C:\Users\baroh\source\repos\B19 Ex02 Bar 204074629 Daniel 204509780\Ex02_Othelo\obj\Debug\Ex02_Othelo.pdb
+C:\Users\Daniel\source\repos\Ex02_Othelo_New\Ex02_Othelo\bin\Debug\Ex02_Othelo.exe
+C:\Users\Daniel\source\repos\Ex02_Othelo_New\Ex02_Othelo\bin\Debug\Ex02_Othelo.pdb
+C:\Users\Daniel\source\repos\Ex02_Othelo_New\Ex02_Othelo\bin\Debug\Ex02.ConsoleUtils.dll
+C:\Users\Daniel\source\repos\Ex02_Othelo_New\Ex02_Othelo\obj\Debug\Ex02_Othelo.csprojAssemblyReference.cache
+C:\Users\Daniel\source\repos\Ex02_Othelo_New\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.CoreCompileInputs.cache
+C:\Users\Daniel\source\repos\Ex02_Othelo_New\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.CopyComplete
+C:\Users\Daniel\source\repos\Ex02_Othelo_New\Ex02_Othelo\obj\Debug\Ex02_Othelo.exe
+C:\Users\Daniel\source\repos\Ex02_Othelo_New\Ex02_Othelo\obj\Debug\Ex02_Othelo.pdb
