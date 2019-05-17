@@ -6,50 +6,50 @@ namespace Ex02_Othelo
 {
     public class Direction
     {
-        private static eDirection[] m_allDirections =
+        private static eDirection[] m_AllDirections =
             {
             eDirection.Down, eDirection.DownLeft, eDirection.DownRight, eDirection.Left, eDirection.Right, eDirection.Up, eDirection.UpLeft, eDirection.UpRight
             };
 
-        public static eDirection[] AllDirections
+        internal static eDirection[] AllDirections
         {
             get
             {
-                return m_allDirections;
+                return m_AllDirections;
             }
         }
 
-        public static void Move(eDirection i_direction, ref int io_x, ref int io_y)
+        public static void Move(eDirection i_Direction, ref int io_X, ref int io_Y)
         {
-            switch (i_direction)
+            switch (i_Direction)
             {
                 case eDirection.Down:
-                    io_x--;
+                    io_X--;
                     break;
                 case eDirection.Up:
-                    io_x++;
+                    io_X++;
                     break;
                 case eDirection.Left:
-                    io_y--;
+                    io_Y--;
                     break;
                 case eDirection.Right:
-                    io_y++;
+                    io_Y++;
                     break;
                 case eDirection.UpLeft:
-                    io_x--;
-                    io_y--;
+                    io_X--;
+                    io_Y--;
                     break;
                 case eDirection.UpRight:
-                    io_x--;
-                    io_y++;
+                    io_X--;
+                    io_Y++;
                     break;
                 case eDirection.DownLeft:
-                    io_x++;
-                    io_y--;
+                    io_X++;
+                    io_Y--;
                     break;
                 case eDirection.DownRight:
-                    io_x++;
-                    io_y++;
+                    io_X++;
+                    io_Y++;
                     break;
                 default:
                     break;

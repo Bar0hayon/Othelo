@@ -7,10 +7,10 @@ namespace Ex02_Othelo
 {
     public class GameUI
     {
-        public static void PrintBoard(eCell[,] i_Board, eCell i_turnOf)
+        public static void PrintBoard(eCell[,] i_Board, eCell i_TurnOf)
         {
             Ex02.ConsoleUtils.Screen.Clear();
-            printTurnOf(i_turnOf);
+            printTurnOf(i_TurnOf);
             int lengthOfRowsAndColumns = (int)Math.Sqrt(i_Board.Length);
             printColumnIndexes(lengthOfRowsAndColumns);
             printRowSaparator(lengthOfRowsAndColumns);
@@ -90,10 +90,10 @@ namespace Ex02_Othelo
             return userChoise == 2;
         }
 
-        private static void printTurnOf(eCell i_turnOf)
+        private static void printTurnOf(eCell i_TurnOf)
         {
             Console.Write("Turn Of: ");
-            if (i_turnOf == eCell.Black)
+            if (i_TurnOf == eCell.Black)
             {
                 Console.WriteLine("Black");
             }
@@ -103,10 +103,10 @@ namespace Ex02_Othelo
             }
         }
 
-        private static void printColumnIndexes(int i_length)
+        private static void printColumnIndexes(int i_Length)
         {
             Console.Write("  ");
-            for (int i = 0; i < i_length; i++)
+            for (int i = 0; i < i_Length; i++)
             {
                 Console.Write("  " + (char)('A' + i) + " ");
             }
@@ -114,10 +114,10 @@ namespace Ex02_Othelo
             Console.WriteLine();
         }
 
-        private static void printRowSaparator(int i_length)
+        private static void printRowSaparator(int i_Length)
         {
             Console.Write("  ");
-            for (int i = 0; i < i_length * 4; i++)
+            for (int i = 0; i < i_Length * 4; i++)
             {
                 Console.Write("=");
             }
@@ -148,32 +148,27 @@ namespace Ex02_Othelo
             return new Point(x, y);
         }
 
-        internal static void PrintMassage(string i_massage)
+        internal static void PrintMassage(string i_Massage)
         {
-            Console.WriteLine(i_massage);
+            Console.WriteLine(i_Massage);
         }
 
-        internal static void GameOver(eCell countBlacks, eCell countWhites)
+        internal static void PrintPlayersScore(int i_CountByColor, string i_PlayerName)
         {
-            throw new NotImplementedException();
+            StringBuilder i_CountColorString = new StringBuilder();
+            i_CountColorString.Append(i_PlayerName).Append(" achieved ").Append(i_CountByColor).Append(" points.");
+            Console.WriteLine(i_CountColorString);
         }
 
-        internal static void printPlayersScore(int i_CountByColor, string i_PlayerName)
+        internal static void PrintGameFinalResults(int io_CountBlack, int io_CountWhite, string i_BlackPlayerName, string i_WhitePlayerName)
         {
-            StringBuilder i_countColorString = new StringBuilder();
-            i_countColorString.Append(i_PlayerName).Append(" achieved ").Append(i_CountByColor).Append(" points.");
-            Console.WriteLine(i_countColorString);
-        }
-
-        internal static void printGameFinalResults(int countBlack, int countWhite, string i_BlackPlayerName, string i_WhitePlayerName)
-        {
-            printPlayersScore(countBlack, i_BlackPlayerName);
-            printPlayersScore(countWhite, i_WhitePlayerName);
-            if (countBlack > countWhite)
+            PrintPlayersScore(io_CountBlack, i_BlackPlayerName);
+            PrintPlayersScore(io_CountWhite, i_WhitePlayerName);
+            if (io_CountBlack > io_CountWhite)
             {
                 PrintMassage("Black color wins!");
             }
-            else if (countBlack < countWhite)
+            else if (io_CountBlack < io_CountWhite)
             {
                 PrintMassage("White color wins!");
             }
@@ -183,7 +178,7 @@ namespace Ex02_Othelo
             }
         }
 
-        internal static void endGameMessage()
+        internal static void EndGameMessage()
         {
             Ex02.ConsoleUtils.Screen.Clear();
             PrintMassage("\nThank You for playing our Othelo game!\n" +

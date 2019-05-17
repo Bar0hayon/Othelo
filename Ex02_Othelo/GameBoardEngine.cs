@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Threading;
 
 namespace Ex02_Othelo
 {
@@ -10,7 +11,7 @@ namespace Ex02_Othelo
         private eCell[,] m_Board;
         private List<Point> m_LegalMoves;
         private int m_BoardSize;
-
+        private const int k_Milliseconds = 500;
         public eCell[,] Board
         {
             get
@@ -19,61 +20,61 @@ namespace Ex02_Othelo
             }
         }
 
-        public GameBoardEngine(int i_boardSize)
+        public GameBoardEngine(int i_BoardSize)
         {
-            m_BoardSize = i_boardSize;
-            m_Board = new eCell[i_boardSize, i_boardSize];
-            initialBoard(i_boardSize);
+            m_BoardSize = i_BoardSize;
+            m_Board = new eCell[i_BoardSize, i_BoardSize];
+            initialBoard(i_BoardSize);
             m_LegalMoves = new List<Point>();
         }
 
-        private void initialBoard(int i_boardSize)
+        private void initialBoard(int i_BoardSize)
         {
-            for (int i = 0; i < i_boardSize; i++)
+            for (int i = 0; i < i_BoardSize; i++)
             {
-                for (int j = 0; j < i_boardSize; j++)
+                for (int j = 0; j < i_BoardSize; j++)
                 {
                     m_Board[i, j] = eCell.Empty;
                 }
             }
 
-            m_Board[((i_boardSize / 2) - 1), ((i_boardSize / 2) - 1)] = eCell.White;
-            m_Board[(i_boardSize / 2), (i_boardSize / 2)] = eCell.White;
-            m_Board[(i_boardSize / 2), (i_boardSize / 2) - 1] = eCell.Black;
-            m_Board[(i_boardSize / 2) - 1, (i_boardSize / 2)] = eCell.Black;
+            m_Board[((i_BoardSize / 2) - 1), ((i_BoardSize / 2) - 1)] = eCell.White;
+            m_Board[(i_BoardSize / 2), (i_BoardSize / 2)] = eCell.White;
+            m_Board[(i_BoardSize / 2), (i_BoardSize / 2) - 1] = eCell.Black;
+            m_Board[(i_BoardSize / 2) - 1, (i_BoardSize / 2)] = eCell.Black;
         }
 
-        private void MakeUserMove(Point i_userMove, eCell i_turnOf, eCell[,] i_board)
+        private void makeUserMove(Point i_UserMove, eCell i_TurnOf, eCell[,] i_Board)
         {
             foreach (eDirection direction in Direction.AllDirections)
             {
-                if (isLegalMove(direction, i_userMove.X, i_userMove.Y, i_turnOf, i_board))
+                if (isLegalMove(direction, i_UserMove.X, i_UserMove.Y, i_TurnOf, i_Board))
                 {
-                    makeMove(direction, i_userMove.X, i_userMove.Y, i_turnOf, i_board);
+                    makeMove(direction, i_UserMove.X, i_UserMove.Y, i_TurnOf, i_Board);
                 }
             }
         }
 
-        internal void MakeUserMove(Point i_userMove, eCell i_turnOf)
+        internal void MakeUserMove(Point i_UserMove, eCell i_TurnOf)
         {
-            MakeUserMove(i_userMove, i_turnOf, m_Board);
+            makeUserMove(i_UserMove, i_TurnOf, m_Board);
         }
 
-        private void makeMove(eDirection i_direction, int i_row, int i_column, eCell i_turnOf, eCell[,] i_board)
+        private void makeMove(eDirection i_Direction, int i_Row, int i_Column, eCell i_TurnOf, eCell[,] i_Board)
         {
-            eCell rivalColor = getOppositeColor(i_turnOf);
-            i_board[i_row, i_column] = i_turnOf;
-            Direction.Move(i_direction, ref i_row, ref i_column);
-            while (i_board[i_row, i_column] == rivalColor)
+            eCell rivalColor = getOppositeColor(i_TurnOf);
+            i_Board[i_Row, i_Column] = i_TurnOf;
+            Direction.Move(i_Direction, ref i_Row, ref i_Column);
+            while (i_Board[i_Row, i_Column] == rivalColor)
             {
-                i_board[i_row, i_column] = i_turnOf;
-                Direction.Move(i_direction, ref i_row, ref i_column);
+                i_Board[i_Row, i_Column] = i_TurnOf;
+                Direction.Move(i_Direction, ref i_Row, ref i_Column);
             }
         }
 
-        private void makeMove(eDirection i_direction, int i_row, int i_column, eCell i_turnOf)
+        private void makeMove(eDirection i_Direction, int i_Row, int i_Column, eCell i_TurnOf)
         {
-            makeMove(i_direction, i_row, i_column, i_turnOf, m_Board);
+            makeMove(i_Direction, i_Row, i_Column, i_TurnOf, m_Board);
         }
 
         internal bool isLegalMoveExists()
@@ -81,16 +82,16 @@ namespace Ex02_Othelo
             return m_LegalMoves.Count > 0;
         }
 
-        internal void SetLegalMoves(eCell i_TurnOf, eCell[,] i_board, List<Point> o_legalMoves)
+        internal void SetLegalMoves(eCell i_TurnOf, eCell[,] i_board, List<Point> o_LegalMoves)
         {
-            o_legalMoves.Clear();
+            o_LegalMoves.Clear();
             for (int row = 0; row < m_BoardSize; row++)
             {
                 for (int column = 0; column < m_BoardSize; column++)
                 {
                     if (i_board[row, column] == eCell.Empty)
                     {
-                        setLegalMovesByDirections(row, column, i_TurnOf, o_legalMoves, i_board);
+                        setLegalMovesByDirections(row, column, i_TurnOf, o_LegalMoves, i_board);
                     }
                 }
             }
@@ -101,65 +102,66 @@ namespace Ex02_Othelo
             SetLegalMoves(i_TurnOf, m_Board, m_LegalMoves);
         }
 
-        private void setLegalMovesByDirections(int i_row, int i_column, eCell i_turnOf, List<Point> o_legalMoves, eCell[,] i_board)
+        private void setLegalMovesByDirections(int i_Row, int i_Column, eCell i_TurnOf, List<Point> o_LegalMoves, eCell[,] i_Board)
         {
-            if (isLegalMove(eDirection.Down, i_row, i_column, i_turnOf, i_board) ||
-                isLegalMove(eDirection.DownLeft, i_row, i_column, i_turnOf, i_board) ||
-                isLegalMove(eDirection.DownRight, i_row, i_column, i_turnOf, i_board) ||
-                isLegalMove(eDirection.Left, i_row, i_column, i_turnOf, i_board) ||
-                isLegalMove(eDirection.Right, i_row, i_column, i_turnOf, i_board) ||
-                isLegalMove(eDirection.Up, i_row, i_column, i_turnOf, i_board) ||
-                isLegalMove(eDirection.UpLeft, i_row, i_column, i_turnOf, i_board) ||
-                isLegalMove(eDirection.UpRight, i_row, i_column, i_turnOf, i_board))
+            if (isLegalMove(eDirection.Down, i_Row, i_Column, i_TurnOf, i_Board) ||
+                isLegalMove(eDirection.DownLeft, i_Row, i_Column, i_TurnOf, i_Board) ||
+                isLegalMove(eDirection.DownRight, i_Row, i_Column, i_TurnOf, i_Board) ||
+                isLegalMove(eDirection.Left, i_Row, i_Column, i_TurnOf, i_Board) ||
+                isLegalMove(eDirection.Right, i_Row, i_Column, i_TurnOf, i_Board) ||
+                isLegalMove(eDirection.Up, i_Row, i_Column, i_TurnOf, i_Board) ||
+                isLegalMove(eDirection.UpLeft, i_Row, i_Column, i_TurnOf, i_Board) ||
+                isLegalMove(eDirection.UpRight, i_Row, i_Column, i_TurnOf, i_Board))
             {
-                o_legalMoves.Add(new Point(i_row, i_column));
+                o_LegalMoves.Add(new Point(i_Row, i_Column));
             }
         }
 
-        private void setLegalMovesByDirections(int i_row, int i_column, eCell i_turnOf)
+        private void setLegalMovesByDirections(int i_Row, int i_Column, eCell i_TurnOf)
         {
-            setLegalMovesByDirections(i_row, i_column, i_turnOf, m_LegalMoves, m_Board);
+            setLegalMovesByDirections(i_Row, i_Column, i_TurnOf, m_LegalMoves, m_Board);
         }
 
-        private bool isLegalMove(eDirection i_direction, int i_row, int i_column, eCell i_turnOf, eCell[,] i_board)
+        private bool isLegalMove(eDirection i_Direction, int i_Row, int i_Column, eCell i_TurnOf, eCell[,] i_Board)
         {
-            bool isLegal = false;
-            eCell rivalColor = getOppositeColor(i_turnOf);
-            Direction.Move(i_direction, ref i_row, ref i_column);
-            if (isValidCoordinates(i_row, i_column) && i_board[i_row, i_column] == rivalColor)
+            bool IsLegal = false;
+            eCell rivalColor = getOppositeColor(i_TurnOf);
+            Direction.Move(i_Direction, ref i_Row, ref i_Column);
+            if (isValidCoordinates(i_Row, i_Column) && i_Board[i_Row, i_Column] == rivalColor)
             {
-                while (isValidCoordinates(i_row, i_column) && i_board[i_row, i_column] == rivalColor)
+                while (isValidCoordinates(i_Row, i_Column) && i_Board[i_Row, i_Column] == rivalColor)
                 {
-                    Direction.Move(i_direction, ref i_row, ref i_column);
+                    Direction.Move(i_Direction, ref i_Row, ref i_Column);
                 }
 
-                if (isValidCoordinates(i_row, i_column) && i_board[i_row, i_column] == i_turnOf)
+                if (isValidCoordinates(i_Row, i_Column) && i_Board[i_Row, i_Column] == i_TurnOf)
                 {
-                    isLegal = true;
+                    IsLegal = true;
                 }
             }
 
-            return isLegal;
+            return IsLegal;
         }
 
-        private bool isLegalMove(eDirection i_direction, int i_row, int i_column, eCell i_turnOf)
+        private bool isLegalMove(eDirection i_Direction, int i_Row, int i_Column, eCell i_TurnOf)
         {
-            return isLegalMove(i_direction, i_row, i_column, i_turnOf, m_Board);
+            return isLegalMove(i_Direction, i_Row, i_Column, i_TurnOf, m_Board);
         }
 
-        internal Point GetPcMove(eCell i_turnOf)
+        internal Point GetPcMove(eCell i_TurnOf)
         {
-            int indexOfBestMove = getIndexOfBestMoveFromLegalMoves(i_turnOf);
+            int indexOfBestMove = getIndexOfBestMoveFromLegalMoves(i_TurnOf);
             return m_LegalMoves[indexOfBestMove];
         }
 
-        private int getIndexOfBestMoveFromLegalMoves(eCell i_turnOf)
+        private int getIndexOfBestMoveFromLegalMoves(eCell i_TurnOf)
         {
+            Thread.Sleep(k_Milliseconds);
             int bestMoveIndex;
             int[] countMovePoints = new int[m_LegalMoves.Count];
             for (int i = 0; i < m_LegalMoves.Count; i++)
             {
-                countMovePoints[i] = getAmountOfAdittionalDiscsAfter2Moves(m_LegalMoves[i], i_turnOf);
+                countMovePoints[i] = getAmountOfAdittionalDiscsAfter2Moves(m_LegalMoves[i], i_TurnOf);
             }
 
             bestMoveIndex = 0;
@@ -174,108 +176,108 @@ namespace Ex02_Othelo
             return bestMoveIndex;
         }
 
-        private int getAmountOfAdittionalDiscsAfter2Moves(Point i_potentialMove, eCell i_turnOf)
+        private int getAmountOfAdittionalDiscsAfter2Moves(Point i_PotentialMove, eCell i_TurnOf)
         {
-            int amountOfAdittionalDiscs;
-            int currentPoints = getCurrentPoints(i_turnOf, m_Board);
+            int AmountOfAdittionalDiscs;
+            int CurrentPoints = getCurrentPoints(i_TurnOf, m_Board);
             eCell[,] potentialFutureBoard = copyBoard(m_Board);
-            MakeUserMove(i_potentialMove, i_turnOf, potentialFutureBoard);
-            eCell rivalColor = getOppositeColor(i_turnOf);
-            List<Point> potentialRivalLegalMoves = new List<Point>();
-            SetLegalMoves(rivalColor, potentialFutureBoard, potentialRivalLegalMoves);
-            if (potentialRivalLegalMoves.Count > 0)
+            makeUserMove(i_PotentialMove, i_TurnOf, potentialFutureBoard);
+            eCell rivalColor = getOppositeColor(i_TurnOf);
+            List<Point> PotentialRivalLegalMoves = new List<Point>();
+            SetLegalMoves(rivalColor, potentialFutureBoard, PotentialRivalLegalMoves);
+            if (PotentialRivalLegalMoves.Count > 0)
             {
-                int minPointsAfter2Moves = getMinPointsAfterRivalTurn(potentialRivalLegalMoves, potentialFutureBoard, i_turnOf);
-                amountOfAdittionalDiscs = minPointsAfter2Moves - currentPoints;
+                int MinPointsAfter2Moves = getMinPointsAfterRivalTurn(PotentialRivalLegalMoves, potentialFutureBoard, i_TurnOf);
+                AmountOfAdittionalDiscs = MinPointsAfter2Moves - CurrentPoints;
             }
             else
             {
-                amountOfAdittionalDiscs = currentPoints;
+                AmountOfAdittionalDiscs = CurrentPoints;
             }
 
-            return amountOfAdittionalDiscs;
+            return AmountOfAdittionalDiscs;
         }
 
-        private int getMinPointsAfterRivalTurn(List<Point> i_rivalLegalMoves, eCell[,] i_board, eCell i_turnOf)
+        private int getMinPointsAfterRivalTurn(List<Point> i_RivalLegalMoves, eCell[,] i_Board, eCell i_TurnOf)
         {
-            int minPointsAfterRivalMove;
-            int[] countPointsAfterRivalMove = new int[i_rivalLegalMoves.Count];
-            eCell rivalColor = getOppositeColor(i_turnOf);
-            eCell[,] futureBoardInMove;
-            for (int i = 0; i < countPointsAfterRivalMove.Length; i++)
+            int MinPointsAfterRivalMove;
+            int[] CountPointsAfterRivalMove = new int[i_RivalLegalMoves.Count];
+            eCell RivalColor = getOppositeColor(i_TurnOf);
+            eCell[,] FutureBoardInMove;
+            for (int i = 0; i < CountPointsAfterRivalMove.Length; i++)
             {
-                futureBoardInMove = copyBoard(i_board);
-                MakeUserMove(i_rivalLegalMoves[i], rivalColor, futureBoardInMove);
-                countPointsAfterRivalMove[i] = getCurrentPoints(i_turnOf, futureBoardInMove);
+                FutureBoardInMove = copyBoard(i_Board);
+                makeUserMove(i_RivalLegalMoves[i], RivalColor, FutureBoardInMove);
+                CountPointsAfterRivalMove[i] = getCurrentPoints(i_TurnOf, FutureBoardInMove);
             }
 
-            minPointsAfterRivalMove = countPointsAfterRivalMove[0];
-            for (int i = 1; i < countPointsAfterRivalMove.Length; i++)
+            MinPointsAfterRivalMove = CountPointsAfterRivalMove[0];
+            for (int i = 1; i < CountPointsAfterRivalMove.Length; i++)
             {
-                if (countPointsAfterRivalMove[i] < minPointsAfterRivalMove)
+                if (CountPointsAfterRivalMove[i] < MinPointsAfterRivalMove)
                 {
-                    minPointsAfterRivalMove = countPointsAfterRivalMove[i];
+                    MinPointsAfterRivalMove = CountPointsAfterRivalMove[i];
                 }
             }
 
-            return minPointsAfterRivalMove;
+            return MinPointsAfterRivalMove;
         }
 
-        private int getCurrentPoints(eCell i_turnOf, eCell[,] i_board)
+        private int getCurrentPoints(eCell i_TurnOf, eCell[,] i_Board)
         {
-            int countPoints = 0;
-            foreach (eCell cell in i_board)
+            int CountPoints = 0;
+            foreach (eCell cell in i_Board)
             {
-                if (cell == i_turnOf)
+                if (cell == i_TurnOf)
                 {
-                    countPoints++;
+                    CountPoints++;
                 }
                 else if (cell != eCell.Empty)
                 {
-                    countPoints--;
+                    CountPoints--;
                 }
             }
 
-            return countPoints;
+            return CountPoints;
         }
 
-        private eCell[,] copyBoard(eCell[,] i_board)
+        private eCell[,] copyBoard(eCell[,] i_Board)
         {
-            eCell[,] copyedBoard = new eCell[m_BoardSize, m_BoardSize];
+            eCell[,] CopyedBoard = new eCell[m_BoardSize, m_BoardSize];
             for (int i = 0; i < m_BoardSize; i++)
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
-                    copyedBoard[i, j] = i_board[i, j];
+                    CopyedBoard[i, j] = i_Board[i, j];
                 }
             }
 
-            return copyedBoard;
+            return CopyedBoard;
         }
 
-        private bool isValidCoordinates(int i_row, int i_column)
+        private bool isValidCoordinates(int i_Row, int i_Column)
         {
-            return i_row < m_BoardSize && i_row >= 0 && i_column < m_BoardSize && i_column >= 0;
+            return i_Row < m_BoardSize && i_Row >= 0 && i_Column < m_BoardSize && i_Column >= 0;
         }
 
-        private eCell getOppositeColor(eCell i_color)
+        private eCell getOppositeColor(eCell i_Color)
         {
-            eCell oppositeColor;
-            if (i_color == eCell.Black)
+            eCell OppositeColor;
+            if (i_Color == eCell.Black)
             {
-                oppositeColor = eCell.White;
+                OppositeColor = eCell.White;
             }
             else
             {
-                oppositeColor = eCell.Black;
+                OppositeColor = eCell.Black;
             }
 
-            return oppositeColor;
+            return OppositeColor;
         }
 
-        internal bool isValidMove(Point i_userMove)
+        internal bool isValidMove(Point i_UserMove)
         {
-            return m_LegalMoves.IndexOf(i_userMove) > -1 && isValidCoordinates(i_userMove.X, i_userMove.Y);
+            return m_LegalMoves.IndexOf(i_UserMove) > -1 && isValidCoordinates(i_UserMove.X, i_UserMove.Y);
         }
     }
 }
