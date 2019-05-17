@@ -20,7 +20,11 @@ namespace Ex02_Othelo
         {
             setUserName(ref m_Player1);
             v_IsVsComputer = GameUI.IsVsComputer();
-            if (!v_IsVsComputer)
+            if (v_IsVsComputer)
+            {
+                m_Player2 = "COMPUTER";
+            }
+            else
             {
                 do
                 {
@@ -55,7 +59,8 @@ namespace Ex02_Othelo
                     m_GameBoardEngine.SetLegalMoves(m_TurnOf); //// Duplicate ----> to change!!!
                     if (m_GameBoardEngine.isLegalMoveExists())
                     {
-                        GameUI.PrintMassage("\nThere aren't any legal moves! Your turn is skipped\n");
+                        GameUI.PrintBoard(m_GameBoardEngine.Board, m_TurnOf);
+                        GameUI.PrintMassage("No legal moves! turn skiped...");
                         userMove = getUserMove();
                         m_GameBoardEngine.MakeUserMove(userMove, m_TurnOf);
                     }
@@ -93,12 +98,17 @@ namespace Ex02_Othelo
             GameUI.endGameMessage();
         }
 
-        
-
         private void endMatch()
         {
             CalculateAndPrintPlayersScore(m_GameBoardEngine.Board, ref m_CountBlack, ref m_CountWhite);
             GameUI.printGameFinalResults(m_CountBlack, m_CountWhite, getUserName(eCell.Black), getUserName(eCell.White));
+        }
+
+        private void endGame()
+        {
+            CalculateAndPrintPlayersScore(m_GameBoardEngine.Board, ref m_CountBlack, ref m_CountWhite);
+            GameUI.printGameFinalResults(m_CountBlack, m_CountWhite, getUserName(eCell.Black), getUserName(eCell.White));
+            Console.ReadLine();
         }
 
         private void toggleTurn()
@@ -116,18 +126,25 @@ namespace Ex02_Othelo
         private Point getUserMove()
         {
             Point userMove;
-            do
+            if (m_TurnOf == eCell.White || !v_IsVsComputer)
             {
-                userMove = GameUI.GetUserMove();
-                if(userMove.X == 0 && userMove.Y == k_CapitalLetterQ)
+                do
                 {
-                    Environment.Exit(0);
-                }
-                else if (!m_GameBoardEngine.isValidMove(userMove))
-                {
-                    GameUI.PrintMassage("CONST ILLEAGAL MOVE");
-                }
-            } while (!m_GameBoardEngine.isValidMove(userMove));
+                    userMove = GameUI.GetUserMove();
+                    if (userMove.X == 0 && userMove.Y == k_CapitalLetterQ)
+                    {
+                        Environment.Exit(0);
+                    }
+                    else if (!m_GameBoardEngine.isValidMove(userMove))
+                    {
+                        GameUI.PrintMassage("CONST ILLEAGAL MOVE");
+                    }
+                } while (!m_GameBoardEngine.isValidMove(userMove));
+            }
+            else
+            {
+                userMove = m_GameBoardEngine.GetPcMove(m_TurnOf);
+            }
 
             return userMove;
         }
@@ -143,17 +160,17 @@ namespace Ex02_Othelo
             string o_playerName;
             if (i_SearchNameByItColor == eCell.Black)
             {
-                o_playerName = m_Player1;
+                o_playerName = m_Player2;
             }
             else if (i_SearchNameByItColor == eCell.White)
             {
-                o_playerName = m_Player2;
+                o_playerName = m_Player1;
             }
             else
             {
                 o_playerName = null;
             }
-            if(o_playerName == null)
+            if (o_playerName == null)
             {
                 Console.WriteLine("Error occured! Could not find the name of the User!");
             }
@@ -177,6 +194,6 @@ namespace Ex02_Othelo
                     }
                 }
             }
-        }     
+        }
     }
 }
