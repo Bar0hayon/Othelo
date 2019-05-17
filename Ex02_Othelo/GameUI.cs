@@ -41,7 +41,7 @@ namespace Ex02_Othelo
         internal static int GetBoardSize()
         {
             bool isNumber;
-            int userChose;
+            int userChoise;
             int boardSize;
             do
             {
@@ -49,15 +49,15 @@ namespace Ex02_Othelo
                 Console.WriteLine("\t1. 6X6");
                 Console.WriteLine("\t2. 8X8");
                 string userInput = Console.ReadLine();
-                isNumber = int.TryParse(userInput, out userChose);
-                if (!isNumber || userChose > 2 || userChose < 1)
+                isNumber = int.TryParse(userInput, out userChoise);
+                if (!isNumber || userChoise > 2 || userChoise < 1)
                 {
                     Console.WriteLine("ERROR: please enter a valid input");
                 }
             }
-            while (!isNumber || userChose > 2 || userChose < 1);
+            while (!isNumber || userChoise > 2 || userChoise < 1);
 
-            if (userChose == 1)
+            if (userChoise == 1)
             {
                 boardSize = 6;
             }

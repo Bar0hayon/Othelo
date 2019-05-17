@@ -161,26 +161,26 @@ namespace Ex02_Othelo
 
         internal string GetUserName(eCell i_SearchNameByItColor)
         {
-            string PlayerName;
+            string playerName;
             if (i_SearchNameByItColor == eCell.Black)
             {
-                PlayerName = m_Player2;
+                playerName = m_Player2;
             }
             else if (i_SearchNameByItColor == eCell.White)
             {
-                PlayerName = m_Player1;
+                playerName = m_Player1;
             }
             else
             {
-                PlayerName = null;
+                playerName = null;
             }
 
-            if (PlayerName == null)
+            if (playerName == null)
             {
                 Console.WriteLine("Error occured! Could not find the name of the User!");
             }
 
-            return PlayerName;
+            return playerName;
         }
 
         internal void CalculateAndPrintPlayersScore(eCell[,] i_GameBoard, ref int io_CountBlack, ref int io_CountWhite)

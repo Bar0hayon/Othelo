@@ -124,7 +124,7 @@ namespace Ex02_Othelo
 
         private bool isLegalMove(eDirection i_Direction, int i_Row, int i_Column, eCell i_TurnOf, eCell[,] i_Board)
         {
-            bool IsLegal = false;
+            bool isLegal = false;
             eCell rivalColor = getOppositeColor(i_TurnOf);
             Direction.Move(i_Direction, ref i_Row, ref i_Column);
             if (isValidCoordinates(i_Row, i_Column) && i_Board[i_Row, i_Column] == rivalColor)
@@ -136,11 +136,11 @@ namespace Ex02_Othelo
 
                 if (isValidCoordinates(i_Row, i_Column) && i_Board[i_Row, i_Column] == i_TurnOf)
                 {
-                    IsLegal = true;
+                    isLegal = true;
                 }
             }
 
-            return IsLegal;
+            return isLegal;
         }
 
         private bool isLegalMove(eDirection i_Direction, int i_Row, int i_Column, eCell i_TurnOf)
@@ -178,8 +178,8 @@ namespace Ex02_Othelo
 
         private int getAmountOfAdittionalDiscsAfter2Moves(Point i_PotentialMove, eCell i_TurnOf)
         {
-            int AmountOfAdittionalDiscs;
-            int CurrentPoints = getCurrentPoints(i_TurnOf, m_Board);
+            int amountOfAdittionalDiscs;
+            int currentPoints = getCurrentPoints(i_TurnOf, m_Board);
             eCell[,] potentialFutureBoard = copyBoard(m_Board);
             makeUserMove(i_PotentialMove, i_TurnOf, potentialFutureBoard);
             eCell rivalColor = getOppositeColor(i_TurnOf);
@@ -187,72 +187,72 @@ namespace Ex02_Othelo
             SetLegalMoves(rivalColor, potentialFutureBoard, PotentialRivalLegalMoves);
             if (PotentialRivalLegalMoves.Count > 0)
             {
-                int MinPointsAfter2Moves = getMinPointsAfterRivalTurn(PotentialRivalLegalMoves, potentialFutureBoard, i_TurnOf);
-                AmountOfAdittionalDiscs = MinPointsAfter2Moves - CurrentPoints;
+                int minPointsAfter2Moves = getMinPointsAfterRivalTurn(PotentialRivalLegalMoves, potentialFutureBoard, i_TurnOf);
+                amountOfAdittionalDiscs = minPointsAfter2Moves - currentPoints;
             }
             else
             {
-                AmountOfAdittionalDiscs = CurrentPoints;
+                amountOfAdittionalDiscs = currentPoints;
             }
 
-            return AmountOfAdittionalDiscs;
+            return amountOfAdittionalDiscs;
         }
 
         private int getMinPointsAfterRivalTurn(List<Point> i_RivalLegalMoves, eCell[,] i_Board, eCell i_TurnOf)
         {
-            int MinPointsAfterRivalMove;
-            int[] CountPointsAfterRivalMove = new int[i_RivalLegalMoves.Count];
-            eCell RivalColor = getOppositeColor(i_TurnOf);
-            eCell[,] FutureBoardInMove;
-            for (int i = 0; i < CountPointsAfterRivalMove.Length; i++)
+            int minPointsAfterRivalMove;
+            int[] countPointsAfterRivalMove = new int[i_RivalLegalMoves.Count];
+            eCell rivalColor = getOppositeColor(i_TurnOf);
+            eCell[,] futureBoardInMove;
+            for (int i = 0; i < countPointsAfterRivalMove.Length; i++)
             {
-                FutureBoardInMove = copyBoard(i_Board);
-                makeUserMove(i_RivalLegalMoves[i], RivalColor, FutureBoardInMove);
-                CountPointsAfterRivalMove[i] = getCurrentPoints(i_TurnOf, FutureBoardInMove);
+                futureBoardInMove = copyBoard(i_Board);
+                makeUserMove(i_RivalLegalMoves[i], rivalColor, futureBoardInMove);
+                countPointsAfterRivalMove[i] = getCurrentPoints(i_TurnOf, futureBoardInMove);
             }
 
-            MinPointsAfterRivalMove = CountPointsAfterRivalMove[0];
-            for (int i = 1; i < CountPointsAfterRivalMove.Length; i++)
+            minPointsAfterRivalMove = countPointsAfterRivalMove[0];
+            for (int i = 1; i < countPointsAfterRivalMove.Length; i++)
             {
-                if (CountPointsAfterRivalMove[i] < MinPointsAfterRivalMove)
+                if (countPointsAfterRivalMove[i] < minPointsAfterRivalMove)
                 {
-                    MinPointsAfterRivalMove = CountPointsAfterRivalMove[i];
+                    minPointsAfterRivalMove = countPointsAfterRivalMove[i];
                 }
             }
 
-            return MinPointsAfterRivalMove;
+            return minPointsAfterRivalMove;
         }
 
         private int getCurrentPoints(eCell i_TurnOf, eCell[,] i_Board)
         {
-            int CountPoints = 0;
+            int countPoints = 0;
             foreach (eCell cell in i_Board)
             {
                 if (cell == i_TurnOf)
                 {
-                    CountPoints++;
+                    countPoints++;
                 }
                 else if (cell != eCell.Empty)
                 {
-                    CountPoints--;
+                    countPoints--;
                 }
             }
 
-            return CountPoints;
+            return countPoints;
         }
 
         private eCell[,] copyBoard(eCell[,] i_Board)
         {
-            eCell[,] CopyedBoard = new eCell[m_BoardSize, m_BoardSize];
+            eCell[,] copyedBoard = new eCell[m_BoardSize, m_BoardSize];
             for (int i = 0; i < m_BoardSize; i++)
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
-                    CopyedBoard[i, j] = i_Board[i, j];
+                    copyedBoard[i, j] = i_Board[i, j];
                 }
             }
 
-            return CopyedBoard;
+            return copyedBoard;
         }
 
         private bool isValidCoordinates(int i_Row, int i_Column)
@@ -262,17 +262,17 @@ namespace Ex02_Othelo
 
         private eCell getOppositeColor(eCell i_Color)
         {
-            eCell OppositeColor;
+            eCell oppositeColor;
             if (i_Color == eCell.Black)
             {
-                OppositeColor = eCell.White;
+                oppositeColor = eCell.White;
             }
             else
             {
-                OppositeColor = eCell.Black;
+                oppositeColor = eCell.Black;
             }
 
-            return OppositeColor;
+            return oppositeColor;
         }
 
         internal bool isValidMove(Point i_UserMove)
