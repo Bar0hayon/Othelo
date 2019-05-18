@@ -24,7 +24,7 @@ namespace Ex02_Othelo
             internal const string k_InvalidInputErrorMassage = "Error occured. Please enter a valid input";
             internal const string k_ChooseBoardSizeMassage = "Please choose a Board size:";
             internal const string k_BoardSizeIsSixPowerTwoMassage = "\t1. 6X6";
-            internal const string k_BoardSizeIsEightPowerTwoMassage = "\t1. 8X8";
+            internal const string k_BoardSizeIsEightPowerTwoMassage = "\t2. 8X8";
             internal const string k_ChooseOpponentToCompitteAgainstMassage = "Please choose your opponent";
             internal const string k_StartTwoPlayersGameMassage = "\t1.Start a 2 players game.";
             internal const string k_StartPlayerVsComputerGameMassage = "\t2.Start a game VS the computer";
