@@ -5,13 +5,48 @@ using System.Text;
 
 namespace Ex02_Othelo
 {
-    public class GameUI
+    internal class GameUI
     {
+        public class Messages
+        {
+            internal const string k_InvalidInputUserNameMassage = "Could not use the current name. Please enter a different and valid name";
+            internal const string k_UserInputStringEqualsNo = "no";
+            internal const string k_UserInputStringEqualsYes = "yes";
+            internal const string k_IsRematchGameMassage = "\nGo for a rematch? (yes/no)";
+            internal const string k_BothPlayersDoesNotHaveAnyLegalMoveMassage = "\nThere aren't any legal moves for both players! Game is over!\n";
+            internal const string k_PlayerDoesNotHaveAnyLegalMoveMassage = "No legal moves! turn skipped...";
+            internal const string k_ComputerName = "Computer";
+            internal const string k_InvalidUserNameInputMassage = "User name is allready in use! please use a different user name";
+            internal const string k_UserNameDidNotFoundErrorMassage = "Error occured! Could not find the name of the User!";
+            internal const string k_SetUserNameMassage = "Please enter player name:";
+            internal const string k_IllegalMoveMassage = "Move is illegal. Please call for different valid move";
+            internal const string k_ComputersTurnMassage = "Computer's turn ...";
+            internal const string k_InvalidInputErrorMassage = "Error occured. Please enter a valid input";
+            internal const string k_ChooseBoardSizeMassage = "Please choose a Board size:";
+            internal const string k_BoardSizeIsSixPowerTwoMassage = "\t1. 6X6";
+            internal const string k_BoardSizeIsEightPowerTwoMassage = "\t1. 8X8";
+            internal const string k_ChooseOpponentToCompitteAgainstMassage = "Please choose your opponent";
+            internal const string k_StartTwoPlayersGameMassage = "\t1.Start a 2 players game.";
+            internal const string k_StartPlayerVsComputerGameMassage = "\t2.Start a game VS the computer";
+            internal const string k_TurnOfMassage = "Turn Of: ";
+            internal const string k_Black = "Black";
+            internal const string k_White = "White";
+            internal const string k_BlackColorWinsMassage = "Black color wins!";
+            internal const string k_WhiteColorWinsMassage = "White color wins!";
+            internal const string k_TieMassage = "Tie! You better go and match it again!";
+            internal const string k_SetNextUserMoveMassage = "Please insert your next move: (for example: E4)";
+            internal const string k_Achieved = " achieved ";
+            internal const string k_Points = " points.";
+            internal const string k_EndGameMassage = "\nThank You for playing our Othelo game!\n" +
+                                                     "Have a good day!\n\n" +
+                                                     "Press any key to continue...";
+        }
+
         public static void PrintBoard(eCell[,] i_Board, eCell i_TurnOf)
         {
+            int lengthOfRowsAndColumns = (int)Math.Sqrt(i_Board.Length);
             Ex02.ConsoleUtils.Screen.Clear();
             printTurnOf(i_TurnOf);
-            int lengthOfRowsAndColumns = (int)Math.Sqrt(i_Board.Length);
             printColumnIndexes(lengthOfRowsAndColumns);
             printRowSaparator(lengthOfRowsAndColumns);
             for (int row = 0; row < lengthOfRowsAndColumns; row++)
@@ -45,14 +80,14 @@ namespace Ex02_Othelo
             int boardSize;
             do
             {
-                Console.WriteLine("Please choose a Board size:");
-                Console.WriteLine("\t1. 6X6");
-                Console.WriteLine("\t2. 8X8");
+                PrintMassageLine(Messages.k_ChooseBoardSizeMassage);
+                PrintMassageLine(Messages.k_BoardSizeIsSixPowerTwoMassage);
+                PrintMassageLine(Messages.k_BoardSizeIsEightPowerTwoMassage);
                 string userInput = Console.ReadLine();
                 isNumber = int.TryParse(userInput, out userChoise);
                 if (!isNumber || userChoise > 2 || userChoise < 1)
                 {
-                    Console.WriteLine("ERROR: please enter a valid input");
+                    PrintMassageLine(Messages.k_InvalidInputErrorMassage);
                 }
             }
             while (!isNumber || userChoise > 2 || userChoise < 1);
@@ -75,14 +110,14 @@ namespace Ex02_Othelo
             int userChoise;
             do
             {
-                Console.WriteLine("please choose one of the followings:");
-                Console.WriteLine("\t1.start a 2 players game.");
-                Console.WriteLine("\t2.start a game VS the computer");
+                PrintMassageLine(Messages.k_ChooseOpponentToCompitteAgainstMassage);
+                PrintMassageLine(Messages.k_StartTwoPlayersGameMassage);
+                PrintMassageLine(Messages.k_StartPlayerVsComputerGameMassage);
                 string userInput = Console.ReadLine();
                 isNumber = int.TryParse(userInput, out userChoise);
                 if (!isNumber || userChoise > 2 || userChoise < 1)
                 {
-                    Console.WriteLine("ERROR: please enter a valid input");
+                    PrintMassageLine(Messages.k_InvalidInputErrorMassage);
                 }
             }
             while (!isNumber || userChoise > 2 || userChoise < 1);
@@ -92,14 +127,14 @@ namespace Ex02_Othelo
 
         private static void printTurnOf(eCell i_TurnOf)
         {
-            Console.Write("Turn Of: ");
+            PrintMassageLine(Messages.k_TurnOfMassage);
             if (i_TurnOf == eCell.Black)
             {
-                Console.WriteLine("Black");
+                PrintMassageLine(Messages.k_Black);
             }
             else
             {
-                Console.WriteLine("White");
+                PrintMassageLine(Messages.k_White);
             }
         }
 
@@ -122,16 +157,18 @@ namespace Ex02_Othelo
                 Console.Write("=");
             }
 
-            Console.WriteLine("=");
+            PrintMassageLine("=");
         }
 
         internal static Point GetUserMove()
         {
             int x = 0;
             int y = 0;
-            Console.WriteLine("Enter Coordinates: (for example: E4)");
-            string stringCoordinats = Console.ReadLine();
-            char[] charArrayCoordinates = stringCoordinats.ToCharArray();
+            string stringCoordinats;
+            char[] charArrayCoordinates;
+            PrintMassageLine(Messages.k_SetNextUserMoveMassage);
+            stringCoordinats = Console.ReadLine();
+            charArrayCoordinates = stringCoordinats.ToCharArray();
             if (charArrayCoordinates.Length > 0 && charArrayCoordinates.Length <= 2)
             {
                 if (charArrayCoordinates.Length == 1)
@@ -148,7 +185,7 @@ namespace Ex02_Othelo
             return new Point(x, y);
         }
 
-        internal static void PrintMassage(string i_Massage)
+        internal static void PrintMassageLine(string i_Massage)
         {
             Console.WriteLine(i_Massage);
         }
@@ -156,7 +193,7 @@ namespace Ex02_Othelo
         internal static void PrintPlayersScore(int i_CountByColor, string i_PlayerName)
         {
             StringBuilder i_CountColorString = new StringBuilder();
-            i_CountColorString.Append(i_PlayerName).Append(" achieved ").Append(i_CountByColor).Append(" points.");
+            i_CountColorString.Append(i_PlayerName).Append(Messages.k_Achieved).Append(i_CountByColor).Append(Messages.k_Points);
             Console.WriteLine(i_CountColorString);
         }
 
@@ -166,24 +203,22 @@ namespace Ex02_Othelo
             PrintPlayersScore(io_CountWhite, i_WhitePlayerName);
             if (io_CountBlack > io_CountWhite)
             {
-                PrintMassage("Black color wins!");
+                PrintMassageLine(Messages.k_BlackColorWinsMassage);
             }
             else if (io_CountBlack < io_CountWhite)
             {
-                PrintMassage("White color wins!");
+                PrintMassageLine(Messages.k_WhiteColorWinsMassage);
             }
             else
             {
-                PrintMassage("Tie! You better go and match it again!");
+                PrintMassageLine(Messages.k_TieMassage);
             }
         }
 
         internal static void EndGameMessage()
         {
             Ex02.ConsoleUtils.Screen.Clear();
-            PrintMassage("\nThank You for playing our Othelo game!\n" +
-                                "Have a good day!\n\n" +
-                                "Press any key to continue...");
+            PrintMassageLine(GameUI.Messages.k_EndGameMassage);
             Console.ReadLine();
         }
     }

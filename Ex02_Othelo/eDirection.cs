@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex02_Othelo
 {
-    public enum eDirection
+    internal enum eDirection
     {
         Up,
         UpRight,

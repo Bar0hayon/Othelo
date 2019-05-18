@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex02_Othelo
 {
-    public class Direction
+    internal class Direction
     {
         private static eDirection[] m_AllDirections =
             {

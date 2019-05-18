@@ -8,13 +8,14 @@ namespace Ex02_Othelo
     public class GameManager
     {
         private const int k_CapitalLetterQ = 16;
+        private GameBoardEngine m_GameBoardEngine;
+        private eCell m_TurnOf = eCell.White;
         private string m_Player1;
         private string m_Player2;
-        private bool v_IsVsComputer;
-        private eCell m_TurnOf = eCell.White;
-        private GameBoardEngine m_GameBoardEngine;
         private int m_BoardSize;
-        private int m_CountBlack = 0, m_CountWhite = 0;
+        private int m_CountBlack = 0;
+        private int m_CountWhite = 0;
+        private bool v_IsVsComputer;
 
         public void StartMenu()
         {
@@ -22,7 +23,7 @@ namespace Ex02_Othelo
             v_IsVsComputer = GameUI.IsVsComputer();
             if (v_IsVsComputer)
             {
-                m_Player2 = "Computer";
+                m_Player2 = GameUI.Messages.k_ComputerName;
             }
             else
             {
@@ -31,7 +32,7 @@ namespace Ex02_Othelo
                     SetUserName(ref m_Player2);
                     if (m_Player1 == m_Player2)
                     {
-                        GameUI.PrintMassage("UserName is allready in use! please use a defferent UserName");
+                        GameUI.PrintMassageLine(GameUI.Messages.k_InvalidUserNameInputMassage);
                     }
                 }
                 while (m_Player1 == m_Player2);
@@ -58,17 +59,17 @@ namespace Ex02_Othelo
                 else
                 {
                     toggleTurn();
-                    m_GameBoardEngine.SetLegalMoves(m_TurnOf); //// Duplicate ----> to change!!!
+                    m_GameBoardEngine.SetLegalMoves(m_TurnOf);
                     if (m_GameBoardEngine.isLegalMoveExists())
                     {
                         GameUI.PrintBoard(m_GameBoardEngine.Board, m_TurnOf);
-                        GameUI.PrintMassage("No legal moves! turn skipped...");
+                        GameUI.PrintMassageLine(GameUI.Messages.k_PlayerDoesNotHaveAnyLegalMoveMassage);
                         userMove = getUserMove();
                         m_GameBoardEngine.MakeUserMove(userMove, m_TurnOf);
                     }
                     else
                     {
-                        GameUI.PrintMassage("\nThere aren't any legal moves for both players! Game is over!\n");
+                        GameUI.PrintMassageLine(GameUI.Messages.k_BothPlayersDoesNotHaveAnyLegalMoveMassage);
                         endMatch();
                         playRematchGame();
                         Environment.Exit(0);
@@ -82,9 +83,9 @@ namespace Ex02_Othelo
             string userInput = null;
             do
             {
-                GameUI.PrintMassage("\nGo for a rematch? (yes/no)");
+                GameUI.PrintMassageLine(GameUI.Messages.k_IsRematchGameMassage);
                 userInput = Console.ReadLine();
-                if (userInput.ToLower() == "yes")
+                if (userInput.ToLower() == GameUI.Messages.k_UserInputStringEqualsYes)
                 {
                     m_CountBlack = 0;
                     m_CountWhite = 0;
@@ -92,12 +93,12 @@ namespace Ex02_Othelo
                     m_GameBoardEngine = new GameBoardEngine(m_BoardSize);
                     startGame();
                 }
-                else if (userInput.ToLower() != "no")
+                else if (userInput.ToLower() != GameUI.Messages.k_UserInputStringEqualsNo)
                 {
-                    GameUI.PrintMassage("ERROR: please enter a valid input");
+                    GameUI.PrintMassageLine(GameUI.Messages.k_InvalidInputUserNameMassage);
                 }
             }
-            while (userInput.ToLower() != "no");
+            while (userInput.ToLower() != GameUI.Messages.k_UserInputStringEqualsNo);
             GameUI.EndGameMessage();
         }
 
@@ -140,7 +141,7 @@ namespace Ex02_Othelo
                     }
                     else if (!m_GameBoardEngine.isValidMove(userMove))
                     {
-                        GameUI.PrintMassage("CONST ILLEAGAL MOVE");
+                        GameUI.PrintMassageLine(GameUI.Messages.k_IllegalMoveMassage);
                     }
                 }
                 while (!m_GameBoardEngine.isValidMove(userMove));
@@ -155,7 +156,7 @@ namespace Ex02_Othelo
 
         internal void SetUserName(ref string i_PlayerName)
         {
-            GameUI.PrintMassage("Please enter player name:");
+            GameUI.PrintMassageLine(GameUI.Messages.k_SetUserNameMassage);
             i_PlayerName = Console.ReadLine();
         }
 
@@ -177,7 +178,7 @@ namespace Ex02_Othelo
 
             if (playerName == null)
             {
-                Console.WriteLine("Error occured! Could not find the name of the User!");
+                Console.WriteLine(GameUI.Messages.k_UserNameDidNotFoundErrorMassage);
             }
 
             return playerName;

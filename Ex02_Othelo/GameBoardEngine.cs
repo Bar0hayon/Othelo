@@ -6,12 +6,13 @@ using System.Threading;
 
 namespace Ex02_Othelo
 {
-    public class GameBoardEngine
+    internal class GameBoardEngine
     {
+        private const int k_Milliseconds = 575;
         private eCell[,] m_Board;
         private List<Point> m_LegalMoves;
         private int m_BoardSize;
-        private const int k_Milliseconds = 500;
+
         public eCell[,] Board
         {
             get
@@ -22,10 +23,10 @@ namespace Ex02_Othelo
 
         public GameBoardEngine(int i_BoardSize)
         {
-            m_BoardSize = i_BoardSize;
-            m_Board = new eCell[i_BoardSize, i_BoardSize];
+            m_BoardSize     = i_BoardSize;
+            m_Board         = new eCell[i_BoardSize, i_BoardSize];
+            m_LegalMoves    = new List<Point>();
             initialBoard(i_BoardSize);
-            m_LegalMoves = new List<Point>();
         }
 
         private void initialBoard(int i_BoardSize)
@@ -156,6 +157,7 @@ namespace Ex02_Othelo
 
         private int getIndexOfBestMoveFromLegalMoves(eCell i_TurnOf)
         {
+            GameUI.PrintMassageLine(GameUI.Messages.k_ComputersTurnMassage);
             Thread.Sleep(k_Milliseconds);
             int bestMoveIndex;
             int[] countMovePoints = new int[m_LegalMoves.Count];
